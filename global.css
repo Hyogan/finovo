@@ -1,19 +1,68 @@
 @import "tailwindcss";
 @import "uniwind";
-/* @import "tailwindcss";
-@import "nativewind/theme"; */
 
-@theme {
-  /* Brand Core Dark Base */
-  --color-finovo-bg: #101828;
+@layer theme {
+  :root {
+    /* ==========================================================================
+       DARK THEME VARIABLES
+       ========================================================================== */
+    @variant dark {
+      /* Brand Core Background & Surfaces */
+      --color-background: #101828; /* Your deep obsidian base */
+      --color-background-secondary: #162238; /* Subtle elevated panel base */
+      --color-card: #1f2937;
 
-  /* Primary Settlement Green */
-  --color-finovo-primary: #10b981;
+      /* Typography System */
+      --color-foreground: #ffffff;
+      --color-foreground-secondary: #9ca3af;
+      --color-muted: #6b7280;
 
-  /* Debt / Attention Orange */
-  --color-finovo-alert: #f97316;
+      /* Structural System Borders */
+      --color-border: #374151;
+      --color-border-subtle: #1f2937;
 
-  /* The Ghost Asset Neutral (Ultra-subtle contrast background & border) */
-  --color-finovo-ghost: rgba(255, 255, 255, 0.04);
-  --color-finovo-ghost-border: rgba(255, 255, 255, 0.08);
+      /* Interactive & Token Indicators */
+      --color-primary: #10b981; /* Success/Emerald */
+      --color-alert: #f97316; /* Warning/Orange */
+
+      /* Ghost Asset Neutral Tokens */
+      --color-ghost-surface: rgba(255, 255, 255, 0.04);
+      --color-ghost-border: rgba(255, 255, 255, 0.08);
+
+      /* Adaptive Utilities */
+      --color-inverse-btn: #ffffff;
+      --color-inverse-btn-text: #101828;
+    }
+
+    /* ==========================================================================
+       LIGHT THEME VARIABLES
+       ========================================================================== */
+    @variant light {
+      /* Brand Core Background & Surfaces */
+      --color-background: #f9fbfb; /* Crisp clean backdrop from image */
+      --color-background-secondary: #ffffff; /* Card surface */
+      --color-card: #ffffff;
+
+      /* Typography System */
+      --color-foreground: #0f172a; /* Deep slate slate-900 */
+      --color-foreground-secondary: #64748b; /* Slate-500 helper text */
+      --color-muted: #94a3b8;
+
+      /* Structural System Borders */
+      --color-border: #e2e8f0;
+      --color-border-subtle: #f1f5f9;
+
+      /* Interactive & Token Indicators */
+      --color-primary: #10b981; /* Success/Emerald */
+      --color-alert: #f97316; /* Warning/Orange */
+
+      /* Ghost Asset Neutral Tokens (Inverted light-friendly transparency) */
+      --color-ghost-surface: rgba(15, 23, 42, 0.03);
+      --color-ghost-border: rgba(15, 23, 42, 0.06);
+
+      /* Adaptive Utilities */
+      --color-inverse-btn: #0f172a;
+      --color-inverse-btn-text: #ffffff;
+    }
+  }
 }

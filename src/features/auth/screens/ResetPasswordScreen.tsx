@@ -1,0 +1,80 @@
+import { Button } from "@/shared/components/Button";
+import { InputField } from "@/shared/ui/forms/InputField";
+import { Logo } from "@/shared/ui/Logo";
+import React, { useState } from "react";
+import { ScrollView, Text, View } from "react-native";
+
+interface ResetPasswordScreenProps {
+  onSubmit: (password: string) => void;
+  isLoading?: boolean;
+}
+
+export default function ResetPasswordScreen({
+  onSubmit,
+  isLoading = false,
+}: ResetPasswordScreenProps) {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleUpdateSubmit = () => {
+    if (!password || password !== confirmPassword) {
+      return; // Add localized alert boundaries or toast triggers here as needed
+    }
+    onSubmit(password);
+  };
+
+  return (
+    <ScrollView
+      className="flex-1 bg-background"
+      contentContainerStyle={{ flexGrow: 1 }}
+    >
+      <View className="flex-1 justify-between px-6 py-6">
+        {/* Navigation Head Placeholder */}
+        <View className="flex-row justify-between items-center h-14">
+          <Logo variant="horizontal" size={40} />
+        </View>
+
+        {/* Explanatory Block header copy */}
+        <View className="mt-6 mb-8">
+          <Text className="text-3xl font-black tracking-tight text-foreground">
+            Reset security password
+          </Text>
+          <Text className="text-sm text-foreground-secondary mt-2">
+            Create a fresh, resilient security password to shield access to your
+            mutual finance logs.
+          </Text>
+        </View>
+
+        {/* Form Mutation Inputs */}
+        <View className="flex-1 justify-start">
+          <InputField
+            label="New Security Password"
+            placeholder="Choose new strong code"
+            iconName="lock-open-outline"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+          <InputField
+            label="Confirm New Password"
+            placeholder="Re-enter security password"
+            iconName="lock-closed-outline"
+            secureTextEntry
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+          />
+        </View>
+
+        {/* Action Button */}
+        <View className="w-full">
+          <Button
+            label={isLoading ? "Updating..." : "Update Password"}
+            variant="primary"
+            iconRight={isLoading ? undefined : "lock-closed-outline"}
+            onPress={handleUpdateSubmit}
+          />
+        </View>
+      </View>
+    </ScrollView>
+  );
+}
