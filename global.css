@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@import "uniwind";
+/* @import "tailwindcss";
+@import "nativewind/theme"; */
+
+@theme {
+  /* Brand Core Dark Base */
+  --color-finovo-bg: #101828;
+
+  /* Primary Settlement Green */
+  --color-finovo-primary: #10b981;
+
+  /* Debt / Attention Orange */
+  --color-finovo-alert: #f97316;
+
+  /* The Ghost Asset Neutral (Ultra-subtle contrast background & border) */
+  --color-finovo-ghost: rgba(255, 255, 255, 0.04);
+  --color-finovo-ghost-border: rgba(255, 255, 255, 0.08);
+}
