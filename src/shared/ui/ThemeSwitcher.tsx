@@ -8,10 +8,10 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { useThemeColors } from "@shared/hooks/theme";
 import { IoniconName } from "@shared/types";
 import { Uniwind, useUniwind } from "uniwind";
 import { ThemeButton } from "../components/ThemedButton";
-import { useThemeIconColor } from "../hooks/theme";
 
 type Theme = "light" | "dark" | "system";
 
@@ -78,6 +78,7 @@ export default function ThemeSwitcher({ variant }: ThemeSwitcherProps) {
  * Default pill switcher
  */
 function ThemeSwitcherDefault({ theme, setTheme }: ThemeSwitcherVariantProps) {
+  const colors = useThemeColors();
   return (
     <View className="flex-row gap-2 rounded-full bg-zinc-200 p-1 dark:bg-zinc-900">
       {themes.map((item) => {
@@ -97,7 +98,8 @@ function ThemeSwitcherDefault({ theme, setTheme }: ThemeSwitcherVariantProps) {
             <Ionicons
               name={item.icon}
               size={18}
-              className={active ? "text-blue-500" : "text-zinc-500"}
+              color={active ? colors.primary : colors.muted}
+              // className={active ? "text-blue-500" : "text-zinc-500"}
             />
 
             <Text className="ml-2 text-black dark:text-white">
@@ -115,7 +117,8 @@ function ThemeSwitcherDefault({ theme, setTheme }: ThemeSwitcherVariantProps) {
  */
 function ThemeSwitcherMenu({ theme, setTheme }: ThemeSwitcherVariantProps) {
   const [open, setOpen] = useState(false);
-  const iconColor = useThemeIconColor();
+  // const iconColor = useThemeIconColor();
+  const colors = useThemeColors();
   const rotation = useSharedValue(0);
 
   // No side effects inside the updater — React (Strict Mode) may invoke
@@ -175,36 +178,29 @@ function ThemeSwitcherMenu({ theme, setTheme }: ThemeSwitcherVariantProps) {
       >
         {options.map((item) => (
           <ThemeButton
+            key={item.name}
             active={item.name === theme}
             onPress={() => {
               setTheme(item.name);
               toggleMenu();
             }}
           >
-            <Ionicons name={item.icon} size={20} color={iconColor} />
+            <Ionicons name={item.icon} size={20} color={colors.primary} />
           </ThemeButton>
         ))}
       </Animated.View>
 
       {/* Main button */}
-      <Pressable
+      <ThemeButton
         onPress={toggleMenu}
         accessibilityRole="button"
         accessibilityLabel="Open theme menu"
         accessibilityState={{ expanded: open }}
-        className="
-          h-12 w-12
-          rounded-full
-          items-center
-          justify-center
-          bg-background-secondary
-          shadow-lg
-        "
       >
         <Animated.View style={iconStyle}>
-          <Ionicons name={iconFor(theme)} size={22} color={iconColor} />
+          <Ionicons name={iconFor(theme)} size={22} color={colors.primary} />
         </Animated.View>
-      </Pressable>
+      </ThemeButton>
     </View>
   );
 }

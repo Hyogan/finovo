@@ -1,3 +1,4 @@
+import { useThemeColors } from "@/shared/hooks/theme";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Text, TextInput, View } from "react-native";
@@ -20,7 +21,7 @@ export function InputField({
   onChangeText,
 }: InputFieldProps) {
   const [isFocused, setIsFocused] = useState(false);
-
+  const colors = useThemeColors();
   return (
     <View className="w-full mb-4">
       <Text className="text-xs font-bold text-foreground-secondary ml-1 mb-1.5 tracking-wider uppercase">
@@ -37,6 +38,7 @@ export function InputField({
         <Ionicons
           name={iconName}
           size={20}
+          color={isFocused ? colors.primary : colors.muted}
           className={`mr-3 ${isFocused ? "text-primary" : "text-muted"}`}
         />
 

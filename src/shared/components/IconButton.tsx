@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { useThemeColors } from "../hooks/theme";
 import { IoniconName } from "../types";
 
 interface IconButtonProps extends TouchableOpacityProps {
@@ -9,6 +10,7 @@ interface IconButtonProps extends TouchableOpacityProps {
 }
 
 export function IconButton({ iconName, size = 20, ...props }: IconButtonProps) {
+  const colors = useThemeColors();
   return (
     <TouchableOpacity
       className="w-8 h-8 items-center justify-center rounded-full border border-border"
@@ -17,7 +19,7 @@ export function IconButton({ iconName, size = 20, ...props }: IconButtonProps) {
       <Ionicons
         name={iconName as any}
         size={size}
-        className="text-foreground-secondary"
+        color={colors.foregroundSecondary}
       />
     </TouchableOpacity>
   );

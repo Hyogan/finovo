@@ -1,16 +1,18 @@
-import { Pressable } from "react-native";
+import { Pressable, PressableProps } from "react-native";
 import { useUniwind } from "uniwind";
 
 interface ThemeButtonProps {
   children: React.ReactNode;
   onPress: () => void;
   active?: boolean;
+  props?: PressableProps;
 }
 
 export function ThemeButton({
   children,
   onPress,
   active = false,
+  props,
 }: ThemeButtonProps) {
   const { theme } = useUniwind();
 
@@ -31,6 +33,7 @@ export function ThemeButton({
   return (
     <Pressable
       onPress={onPress}
+      {...props}
       android_ripple={{
         color: isDark ? "rgba(255,255,255,0.08)" : "rgba(15,23,42,0.08)",
         borderless: true,

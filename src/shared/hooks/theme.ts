@@ -1,8 +1,8 @@
-import { themeIconColor } from "@shared/theme/colors";
+import { themeColors } from "@shared/theme/colors";
 import { useColorScheme } from "react-native";
 
-export function useThemeIconColor() {
+export function useThemeColors() {
   const scheme = useColorScheme();
 
-  return scheme === "dark" ? themeIconColor.dark : themeIconColor.light;
+  return scheme === "dark" ? themeColors.dark : themeColors.light;
 }

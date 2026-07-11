@@ -1,7 +1,7 @@
 import { Button } from "@/shared/components/Button";
-import { IconButton } from "@/shared/components/IconButton";
 import { InputField } from "@/shared/ui/forms/InputField";
 import { Logo } from "@/shared/ui/Logo";
+import ThemeSwitcher from "@/shared/ui/ThemeSwitcher";
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
@@ -27,7 +27,8 @@ export default function Register({
         {/* Navigation Bar */}
         <View className="flex-row justify-between items-center h-14">
           <Logo variant="horizontal" size={40} />
-          <IconButton iconName="close-outline" onPress={onClosePress} />
+          {/* <IconButton iconName="close-outline" onPress={onClosePress} /> */}
+          <ThemeSwitcher variant="menu" />
         </View>
 
         {/* Heading Statement */}

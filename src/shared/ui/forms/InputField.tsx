@@ -1,3 +1,4 @@
+import { useThemeColors } from "@/shared/hooks/theme";
 import { AutoCapitalizeType } from "@/shared/types";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
@@ -27,7 +28,7 @@ export function InputField({
   autoCapitalize = "none",
 }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
-
+  const colors = useThemeColors();
   return (
     <View className="w-full space-y-1.5 mb-4">
       <Text className="text-xs font-semibold text-foreground-secondary ml-1 tracking-wide uppercase">
@@ -44,6 +45,7 @@ export function InputField({
         <Ionicons
           name={iconName}
           size={20}
+          color={isFocused ? colors.primary : colors.muted}
           className={`mr-3 ${isFocused ? "text-primary" : "text-muted"}`}
         />
 

@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef } from "react";
 import { Animated, Pressable, Text } from "react-native";
+import { useThemeColors } from "../hooks/theme";
 
 interface ButtonProps {
   label: string;
@@ -18,7 +19,7 @@ export function Button({
   disabled = false,
 }: ButtonProps) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
-
+  const colors = useThemeColors();
   const handlePressIn = () => {
     if (disabled) return;
     Animated.spring(scaleAnim, {
@@ -63,7 +64,7 @@ export function Button({
           <Ionicons
             name={iconRight}
             size={18}
-            className="text-inverse-btn-text"
+            color={colors.inverseButtonText}
           />
         )}
       </Animated.View>

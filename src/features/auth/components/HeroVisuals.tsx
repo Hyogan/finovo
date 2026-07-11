@@ -1,3 +1,4 @@
+import { useThemeColors } from "@/shared/hooks/theme";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useRef } from "react";
 import { Animated, Text, View } from "react-native";
@@ -5,6 +6,7 @@ import { Animated, Text, View } from "react-native";
 export function HeroVisual() {
   const floatAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const colors = useThemeColors();
 
   useEffect(() => {
     // 1. Smooth Entry Fade
@@ -41,13 +43,13 @@ export function HeroVisual() {
 
       {/* Floating Top-Right Icon Box */}
       <View className="absolute top-4 right-6 bg-background-secondary p-3 rounded-2xl shadow-sm border border-border-subtle z-20">
-        <Ionicons name="wallet-outline" size={24} className="text-primary" />
+        <Ionicons name="wallet-outline" size={24} color={colors.primary} />
       </View>
 
       {/* Main Visual Container Card */}
       <View className="w-full -rotate-3 max-w-sm bg-background-secondary border border-border-subtle p-5 rounded-[32px] shadow-xl shadow-black/5 relative">
         <View className="w-full h-44 bg-ghost-surface rounded-2xl overflow-hidden justify-center items-center border border-ghost-border">
-          <Ionicons name="people-outline" size={48} className="text-muted" />
+          <Ionicons name="people-outline" size={48} color={colors.muted} />
           <Text className="text-xs text-foreground-secondary mt-2 font-medium">
             Shared Balance Overview
           </Text>
@@ -72,7 +74,7 @@ export function HeroVisual() {
         <Ionicons
           name="trending-up"
           size={20}
-          className="text-inverse-btn-text"
+          color={colors.inverseButtonText}
         />
       </View>
     </Animated.View>

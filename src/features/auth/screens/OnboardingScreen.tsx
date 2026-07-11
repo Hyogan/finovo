@@ -1,6 +1,7 @@
 import { Button } from "@/shared/components/Button";
-import { IconButton } from "@/shared/components/IconButton";
+import { useThemeColors } from "@/shared/hooks/theme";
 import { Logo } from "@/shared/ui/Logo";
+import ThemeSwitcher from "@/shared/ui/ThemeSwitcher";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useEffect, useRef } from "react";
@@ -10,7 +11,7 @@ import { HeroVisual } from "../components/HeroVisuals";
 export default function Onboarding() {
   const contentFade = useRef(new Animated.Value(0)).current;
   const contentSlide = useRef(new Animated.Value(15)).current;
-
+  const colors = useThemeColors();
   const goToLogin = () => {
     router.navigate("/auth/login");
   };
@@ -39,9 +40,13 @@ export default function Onboarding() {
   return (
     <View className="flex-1 justify-between bg-background px-6 py-6">
       {/* Navbar */}
-      <View className="flex-row justify-between items-center h-14 border-b border-border-subtle">
+      <View
+        style={{ zIndex: 50, elevation: 50 }}
+        className="flex-row justify-between items-center h-14 border-b border-border-subtle"
+      >
         <Logo variant="horizontal" size={40} />
-        <IconButton iconName="help-circle-outline" onPress={() => {}} />
+        {/* <IconButton iconName="help-circle-outline" onPress={() => {}} /> */}
+        <ThemeSwitcher variant="menu" />
       </View>
 
       {/* Hero Presentation */}
@@ -74,7 +79,7 @@ export default function Onboarding() {
           variant="primary"
           iconRight="arrow-forward"
         />
-        <Button onPress={goToLogin} label="Log In" variant="secondary" />
+        {/* <Button onPress={goToLogin} label="Log In" variant="secondary" /> */}
 
         {/* Trust Elements */}
         <View className="flex-row justify-center items-center space-x-6 pt-6 pb-2">
@@ -82,7 +87,7 @@ export default function Onboarding() {
             <MaterialCommunityIcons
               name="shield-check-outline"
               size={16}
-              className="text-muted"
+              color={colors.muted}
             />
             <Text className="text-muted text-xs font-bold tracking-wider uppercase">
               SECURE
@@ -92,7 +97,7 @@ export default function Onboarding() {
             <Ionicons
               name="people-circle-outline"
               size={16}
-              className="text-muted"
+              color={colors.muted}
             />
             <Text className="text-muted text-xs font-bold tracking-wider uppercase">
               COLLABORATIVE
