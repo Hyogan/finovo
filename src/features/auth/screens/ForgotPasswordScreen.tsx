@@ -2,12 +2,18 @@ import { Button } from "@/shared/components/Button";
 import { IconButton } from "@/shared/components/IconButton";
 import { InputField } from "@/shared/ui/forms/InputField";
 import { Logo } from "@/shared/ui/Logo";
-import React, { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
+import {
+  ForgotPasswordFormData,
+  forgotPasswordSchema,
+} from "../schemas/auth.schema";
 
 interface ForgotPasswordScreenProps {
   onBackPress: () => void;
-  onSubmit: (email: string) => void;
+  onSubmit: (data: ForgotPasswordFormData) => Promise<void>;
   isLoading?: boolean;
 }
 
@@ -16,7 +22,13 @@ export default function ForgotPasswordScreen({
   onSubmit,
   isLoading = false,
 }: ForgotPasswordScreenProps) {
-  const [email, setEmail] = useState("");
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(forgotPasswordSchema),
+  });
 
   return (
     <ScrollView
@@ -43,12 +55,20 @@ export default function ForgotPasswordScreen({
 
         {/* Input Fields Container */}
         <View className="flex-1 justify-start">
-          <InputField
-            label="Email Address"
-            placeholder="name@domain.com"
-            iconName="mail-outline"
-            value={email}
-            onChangeText={setEmail}
+          <Controller
+            name="email"
+            control={control}
+            render={({ field: { value, onChange, onBlur } }) => (
+              <InputField
+                label="Email Address"
+                placeholder="name@domain.com"
+                iconName="mail-outline"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                error={errors.email?.message}
+              />
+            )}
           />
         </View>
 
@@ -58,7 +78,7 @@ export default function ForgotPasswordScreen({
             label={isLoading ? "Sending..." : "Send Verification Code"}
             variant="primary"
             iconRight={isLoading ? undefined : "paper-plane-outline"}
-            onPress={() => onSubmit(email)}
+            onPress={handleSubmit(onSubmit)}
           />
         </View>
       </View>

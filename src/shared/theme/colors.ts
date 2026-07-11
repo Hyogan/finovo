@@ -19,6 +19,8 @@ export const themeColors = {
 
     inverseButton: "#0f172a",
     inverseButtonText: "#ffffff",
+
+    danger: "#ef4444", // red-500
   },
 
   dark: {
@@ -41,6 +43,8 @@ export const themeColors = {
 
     inverseButton: "#ffffff",
     inverseButtonText: "#101828",
+
+    danger: "#f87171", // red-400
   },
 } as const;
 

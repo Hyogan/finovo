@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   horizontal: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: 0,
   },
 
   vertical: {

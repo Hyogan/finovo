@@ -2,13 +2,16 @@ import { Button } from "@/shared/components/Button";
 import { InputField } from "@/shared/ui/forms/InputField";
 import { Logo } from "@/shared/ui/Logo";
 import ThemeSwitcher from "@/shared/ui/ThemeSwitcher";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { RegisterFormData, registerSchema } from "../schemas/auth.schema";
 
 interface RegisterProps {
   onLoginPress: () => void;
   onClosePress: () => void;
-  onSubmit: (email: string, fullname: string, password: string) => void;
+  onSubmit: (data: RegisterFormData) => Promise<void>;
   isLoading?: boolean; // Good for disabling buttons during requests
 }
 
@@ -18,6 +21,14 @@ export default function Register({
   onSubmit,
   isLoading,
 }: RegisterProps) {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+  });
+
   return (
     <ScrollView
       className="flex-1 bg-background"
@@ -44,21 +55,71 @@ export default function Register({
 
         {/* Full Registration InputField Blocks */}
         <View className="flex-1 justify-start">
-          <InputField
-            label="Full Name"
-            placeholder="e.g., Arsène Patrick"
-            iconName="person-outline"
+          <Controller
+            name="fullname"
+            control={control}
+            render={({ field: { value, onChange, onBlur } }) => (
+              <InputField
+                label="Full Name"
+                placeholder="e.g., Arsène Patrick"
+                iconName="person-outline"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                error={errors.fullname?.message}
+              />
+            )}
           />
-          <InputField
-            label="Email Address"
-            placeholder="name@domain.com"
-            iconName="mail-outline"
+          <Controller
+            name="email"
+            control={control}
+            render={({ field: { value, onChange, onBlur } }) => (
+              <InputField
+                label="Email Address"
+                placeholder="name@domain.com"
+                iconName="mail-outline"
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                error={errors.email?.message}
+              />
+            )}
           />
-          <InputField
-            label="Security Password"
-            placeholder="Choose a strong protection key"
-            iconName="lock-closed-outline"
-            secureTextEntry
+
+          <Controller
+            name="password"
+            control={control}
+            render={({ field: { value, onChange, onBlur } }) => (
+              <InputField
+                label="Security Password"
+                placeholder="Choose a strong protection key"
+                iconName="lock-closed-outline"
+                secureTextEntry
+                showPasswordToggle
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                error={errors.password?.message}
+              />
+            )}
+          />
+
+          <Controller
+            name="confirmPassword"
+            control={control}
+            render={({ field: { value, onChange, onBlur } }) => (
+              <InputField
+                label="Password confirmation"
+                placeholder="Password confirmation"
+                iconName="lock-closed-outline"
+                secureTextEntry
+                showPasswordToggle
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                error={errors.confirmPassword?.message}
+              />
+            )}
           />
         </View>
 
@@ -68,7 +129,7 @@ export default function Register({
             label={isLoading ? "creating account" : "Create Account"}
             variant="primary"
             iconRight={isLoading ? undefined : "checkmark"}
-            onPress={() => onSubmit(email, fullname, password)}
+            onPress={handleSubmit(onSubmit)}
           />
 
           {/* Legal Compliance check statement */}

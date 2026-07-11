@@ -13,7 +13,7 @@ export default function Onboarding() {
   const contentSlide = useRef(new Animated.Value(15)).current;
   const colors = useThemeColors();
   const goToLogin = () => {
-    router.navigate("/auth/login");
+    router.navigate("/(tabs)/");
   };
 
   const goToRegister = () => {
@@ -79,11 +79,10 @@ export default function Onboarding() {
           variant="primary"
           iconRight="arrow-forward"
         />
-        {/* <Button onPress={goToLogin} label="Log In" variant="secondary" /> */}
-
+        <Button onPress={goToLogin} label="Log In" variant="secondary" />
         {/* Trust Elements */}
-        <View className="flex-row justify-center items-center space-x-6 pt-6 pb-2">
-          <View className="flex-row items-center space-x-1">
+        <View className="flex-row  gap-2 justify-center items-center space-x-6 pt-6 pb-2">
+          <View className="flex-row  justify-center items-center space-x-1">
             <MaterialCommunityIcons
               name="shield-check-outline"
               size={16}
@@ -93,7 +92,7 @@ export default function Onboarding() {
               SECURE
             </Text>
           </View>
-          <View className="flex-row items-center space-x-1">
+          <View className="flex-row justify-center items-center space-x-1">
             <Ionicons
               name="people-circle-outline"
               size={16}
@@ -104,7 +103,6 @@ export default function Onboarding() {
             </Text>
           </View>
         </View>
-
         {/* Footer Terms */}
         <Text className="text-center text-xs text-muted font-medium">
           By continuing, you agree to our{" "}

@@ -2,16 +2,21 @@ import { Button } from "@/shared/components/Button";
 import { IconButton } from "@/shared/components/IconButton";
 import { InputField } from "@/shared/ui/forms/InputField";
 import { Logo } from "@/shared/ui/Logo";
-import React, { useState } from "react";
+import {
+  LoginFormData,
+  loginSchema,
+} from "@features/auth/schemas/login.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-
 // 1. Define explicit operational interfaces for the View
 interface LoginScreenProps {
   onRegisterPress: () => void;
   onForgotPasswordPress: () => void;
   onEmailVerificationPress: () => void;
   onClosePress: () => void;
-  onSubmit: (email: string, password: string) => void;
+  onSubmit: (data: LoginFormData) => void | Promise<void>;
   isLoading?: boolean; // Good for disabling buttons during requests
 }
 
@@ -23,8 +28,13 @@ export default function LoginScreen({
   onSubmit,
   isLoading = false,
 }: LoginScreenProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
 
   return (
     <ScrollView
@@ -48,20 +58,38 @@ export default function LoginScreen({
         </View>
 
         <View className="flex-1 justify-start">
-          <InputField
-            label="Email Address"
-            placeholder="Enter your email"
-            iconName="mail-outline"
-            value={email}
-            onChangeText={setEmail}
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { value, onChange, onBlur } }) => (
+              <InputField
+                error={errors.email?.message}
+                label="Email Address"
+                placeholder="Enter your email"
+                iconName="mail-outline"
+                value={value}
+                onBlur={onBlur}
+                onChangeText={onChange}
+              />
+            )}
           />
-          <InputField
-            label="Password"
-            placeholder="Enter your security code"
-            iconName="lock-closed-outline"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
+
+          <Controller
+            name="password"
+            control={control}
+            render={({ field: { value, onChange, onBlur } }) => (
+              <InputField
+                label="Password"
+                error={errors.password?.message}
+                placeholder="Enter your security code"
+                iconName="lock-closed-outline"
+                secureTextEntry
+                showPasswordToggle
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+              />
+            )}
           />
 
           <TouchableOpacity
@@ -80,7 +108,7 @@ export default function LoginScreen({
             label={isLoading ? "Connecting..." : "Sign In"}
             variant="primary"
             iconRight={isLoading ? undefined : "arrow-forward"}
-            onPress={() => onSubmit(email, password)}
+            onPress={handleSubmit(onSubmit)}
           />
 
           <View className="flex-row justify-center items-center py-2">

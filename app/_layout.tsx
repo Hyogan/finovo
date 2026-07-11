@@ -1,23 +1,29 @@
-import { StatusBar } from "react-native";
-import "../global.css"; // <-- file from previous step
-
 import { Stack } from "expo-router";
+// import { StatusBar } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import "../global.css";
-
+import { useUniwind } from "uniwind";
+import "../global.css";
 export default function RootLayout() {
-  const shouldRedirect = true;
+  const { theme } = useUniwind();
 
-  //  <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+  const isDark = theme === "dark";
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(auth)" />
-      </Stack>
-      <StatusBar barStyle="default" />
-    </SafeAreaView>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: isDark ? "#000000" : "#ffffff",
+      }}
+    >
+      <StatusBar
+        style={isDark ? "light" : "dark"}
+        backgroundColor={isDark ? "#000000" : "#ffffff"}
+      />
 
-    // {/* </ThemeProvider> */}
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="auth" />
+      </Stack>
+    </SafeAreaView>
   );
 }
