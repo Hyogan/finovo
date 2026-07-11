@@ -21,6 +21,12 @@ export const themeColors = {
     inverseButtonText: "#ffffff",
 
     danger: "#ef4444", // red-500
+    dangerBackground: "#fee2e2",
+    dangerForeground: "#991b1b",
+
+    success: "#22c55e", // green-500
+    successBackground: "#dcfce7", // green-100
+    successForeground: "#166534", // green-800
   },
 
   dark: {
@@ -44,7 +50,13 @@ export const themeColors = {
     inverseButton: "#ffffff",
     inverseButtonText: "#101828",
 
+    success: "#4ade80", // green-400
+    successBackground: "#14532d", // green-900
+    successForeground: "#bbf7d0", // green-200
+
     danger: "#f87171", // red-400
+    dangerBackground: "#450a0a",
+    dangerForeground: "#fecaca",
   },
 } as const;
 

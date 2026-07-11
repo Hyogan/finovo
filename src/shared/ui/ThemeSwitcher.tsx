@@ -41,21 +41,60 @@ const themes: ThemeItem[] = [
 
 interface ThemeSwitcherProps {
   variant: "default" | "menu";
+  size?: "sm" | "md" | "lg";
 }
 
 interface ThemeSwitcherVariantProps {
   theme: Theme;
   setTheme: (theme: Theme) => void;
+  size: "sm" | "md" | "lg";
 }
+
+const defaultSizeConfig = {
+  sm: {
+    icon: 14,
+    button: "px-2 py-1",
+    text: "text-xs",
+  },
+  md: {
+    icon: 18,
+    button: "px-3 py-2",
+    text: "text-sm",
+  },
+  lg: {
+    icon: 22,
+    button: "px-4 py-3",
+    text: "text-base",
+  },
+};
+
+const menuSizeConfig = {
+  sm: {
+    container: "h-9 w-9",
+    icon: 16,
+    optionIcon: 16,
+  },
+  md: {
+    container: "h-12 w-12",
+    icon: 22,
+    optionIcon: 20,
+  },
+  lg: {
+    container: "h-14 w-14",
+    icon: 26,
+    optionIcon: 24,
+  },
+};
 
 /**
  * Master component
  */
-export default function ThemeSwitcher({ variant }: ThemeSwitcherProps) {
+export default function ThemeSwitcher({
+  variant,
+  size = "md",
+}: ThemeSwitcherProps) {
   const { theme, hasAdaptiveThemes } = useUniwind();
 
-  // When adaptive theming is on, the resolved theme is still shown as
-  // "system" so the System option stays highlighted in the UI.
   const activeTheme: Theme = hasAdaptiveThemes ? "system" : (theme as Theme);
 
   const setTheme = (newTheme: Theme) => {
@@ -65,6 +104,7 @@ export default function ThemeSwitcher({ variant }: ThemeSwitcherProps) {
   const props: ThemeSwitcherVariantProps = {
     theme: activeTheme,
     setTheme,
+    size,
   };
 
   if (variant === "menu") {
@@ -77,8 +117,14 @@ export default function ThemeSwitcher({ variant }: ThemeSwitcherProps) {
 /**
  * Default pill switcher
  */
-function ThemeSwitcherDefault({ theme, setTheme }: ThemeSwitcherVariantProps) {
+function ThemeSwitcherDefault({
+  theme,
+  setTheme,
+  size,
+}: ThemeSwitcherVariantProps) {
   const colors = useThemeColors();
+  const config = defaultSizeConfig[size];
+
   return (
     <View className="flex-row gap-2 rounded-full bg-zinc-200 p-1 dark:bg-zinc-900">
       {themes.map((item) => {
@@ -91,18 +137,17 @@ function ThemeSwitcherDefault({ theme, setTheme }: ThemeSwitcherVariantProps) {
             accessibilityRole="button"
             accessibilityLabel={`Switch to ${item.label} theme`}
             accessibilityState={{ selected: active }}
-            className={`flex-row items-center rounded-full px-3 py-2 ${
+            className={`flex-row items-center rounded-full ${config.button} ${
               active ? "bg-white dark:bg-zinc-700" : ""
             }`}
           >
             <Ionicons
               name={item.icon}
-              size={18}
+              size={config.icon}
               color={active ? colors.primary : colors.muted}
-              // className={active ? "text-blue-500" : "text-zinc-500"}
             />
 
-            <Text className="ml-2 text-black dark:text-white">
+            <Text className={`ml-2 ${config.text} text-black dark:text-white`}>
               {item.label}
             </Text>
           </Pressable>
@@ -115,18 +160,20 @@ function ThemeSwitcherDefault({ theme, setTheme }: ThemeSwitcherVariantProps) {
 /**
  * Animated menu switcher
  */
-function ThemeSwitcherMenu({ theme, setTheme }: ThemeSwitcherVariantProps) {
+function ThemeSwitcherMenu({
+  theme,
+  setTheme,
+  size,
+}: ThemeSwitcherVariantProps) {
   const [open, setOpen] = useState(false);
-  // const iconColor = useThemeIconColor();
   const colors = useThemeColors();
   const rotation = useSharedValue(0);
 
-  // No side effects inside the updater — React (Strict Mode) may invoke
-  // state updaters more than once per call, and mutating a shared value
-  // in there re-triggers withSpring mid-flight, causing the panel to
-  // visibly stutter/snap back instead of animating in cleanly.
+  const config = menuSizeConfig[size];
+
   const toggleMenu = () => {
     const next = !open;
+
     rotation.value = withSpring(next ? 180 : 0);
     setOpen(next);
   };
@@ -155,16 +202,14 @@ function ThemeSwitcherMenu({ theme, setTheme }: ThemeSwitcherVariantProps) {
 
   const iconFor = (t: Theme): IoniconName => {
     const found = themes.find((item) => item.name === t);
+
     return found ? found.icon : "sunny";
   };
 
-  // Don't show the currently active theme in the options list — it's
-  // already represented by the main button itself.
   const options = themes.filter((item) => item.name !== theme);
 
   return (
-    <View className="h-12 w-12 items-center justify-center">
-      {/* Floating options */}
+    <View className={`${config.container} items-center justify-center`}>
       <Animated.View
         style={[
           {
@@ -185,12 +230,15 @@ function ThemeSwitcherMenu({ theme, setTheme }: ThemeSwitcherVariantProps) {
               toggleMenu();
             }}
           >
-            <Ionicons name={item.icon} size={20} color={colors.primary} />
+            <Ionicons
+              name={item.icon}
+              size={config.optionIcon}
+              color={colors.primary}
+            />
           </ThemeButton>
         ))}
       </Animated.View>
 
-      {/* Main button */}
       <ThemeButton
         onPress={toggleMenu}
         accessibilityRole="button"
@@ -198,7 +246,11 @@ function ThemeSwitcherMenu({ theme, setTheme }: ThemeSwitcherVariantProps) {
         accessibilityState={{ expanded: open }}
       >
         <Animated.View style={iconStyle}>
-          <Ionicons name={iconFor(theme)} size={22} color={colors.primary} />
+          <Ionicons
+            name={iconFor(theme)}
+            size={config.icon}
+            color={colors.primary}
+          />
         </Animated.View>
       </ThemeButton>
     </View>

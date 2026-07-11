@@ -33,6 +33,10 @@
       /* Adaptive Utilities */
       --color-inverse-btn: #ffffff;
       --color-inverse-btn-text: #101828;
+
+      --color-success: #4ade80;
+      --color-success-background: #14532d;
+      --color-success-foreground: #bbf7d0;
     }
 
     /* ==========================================================================
@@ -57,6 +61,11 @@
       --color-primary: #10b981; /* Success/Emerald */
       --color-alert: #f97316; /* Warning/Orange */
       --color-danger: #ef4444; /* Danger/Red */
+
+      /* Success */
+      --color-success: #4ade80;
+      --color-success-background: #dcfce7;
+      --color-success-foreground: #166534;
 
       /* Ghost Asset Neutral Tokens (Inverted light-friendly transparency) */
       --color-ghost-surface: rgba(15, 23, 42, 0.03);

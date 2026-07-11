@@ -40,8 +40,8 @@ export function ThemeButton({
         radius: 24,
       }}
       style={({ pressed }) => ({
-        height: 48,
-        width: 48,
+        height: 40,
+        width: 40,
         alignItems: "center",
         justifyContent: "center",
         borderRadius: 999,
